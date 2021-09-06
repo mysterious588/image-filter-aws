@@ -27,7 +27,7 @@ import { filterImageFromURL, deleteLocalFiles } from './util/util';
   // RETURNS
   //   the filtered image file [!!TIP res.sendFile(filteredpath); might be useful]
 
-  app.get("/filteredimage", async (req, res) => {
+  app.get("/filteredimage", async (req: express.Request, res: express.Response) => {
     let image_url = req.query.image_url;
 
     // 1. validate image url query
@@ -38,28 +38,28 @@ import { filterImageFromURL, deleteLocalFiles } from './util/util';
     // 2. call filterImageFromURL()
     let filteredpath = await filterImageFromURL(image_url)
 
-    res.status(200).sendFile(filteredpath, (err) =>{
-      if (err){
+    res.status(200).sendFile(filteredpath, (err) => {
+      if (err) {
         res.status(400).send('failed to filter image');
       } else {
         deleteLocalFiles([filteredpath]);
       }
     });
 
-});
+  });
 
-/**************************************************************************** */
-//! END @TODO1
-// Root Endpoint
-// Displays a simple message to the user
-app.get("/", async (req, res) => {
-  res.send("try GET /filteredimage?image_url={{}}");
-});
+  /**************************************************************************** */
+  //! END @TODO1
+  // Root Endpoint
+  // Displays a simple message to the user
+  app.get("/", async (req, res) => {
+    res.send("try GET /filteredimage?image_url={{}}");
+  });
 
 
-// Start the Server
-app.listen(port, () => {
-  console.log(`server running http://localhost:${port}`);
-  console.log(`press CTRL+C to stop server`);
-});
-}) ();
+  // Start the Server
+  app.listen(port, () => {
+    console.log(`server running http://localhost:${port}`);
+    console.log(`press CTRL+C to stop server`);
+  });
+})();
